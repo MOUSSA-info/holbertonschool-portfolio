@@ -1,0 +1,58 @@
+.homepage-bg {
+  min-height: 100vh;
+  background: #fafafa url('../assets/bg-circuit.svg') center/cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.hero-section {
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+  justify-content: center;
+}
+.hero-logo {
+  width: 220px;
+}
+.hero-content h1 {
+  color: #C33B19;
+  font-size: 2.6rem;
+  font-weight: bold;
+  line-height: 1.1;
+  margin-bottom: 24px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.hero-slogan {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #242424;
+  margin-bottom: 32px;
+  text-align: left;
+  text-transform: uppercase;
+}
+.hero-btn {
+  background: #C33B19;
+  color: #fff;
+  border: none;
+  border-radius: 32px;
+  padding: 18px 44px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.hero-btn:hover {
+  background: #a62912;
+}
+@media (max-width: 700px) {
+  .hero-section {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .hero-content h1, .hero-slogan {
+    text-align: center;
+  }
+}
+

@@ -1,0 +1,27 @@
+{
+  "name": "myglowskills-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Frontend de la plateforme MyGlowSkills - page d'accueil clone",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.22.2"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "react",
+    "homepage",
+    "cybersecurity",
+    "myglowskills"
+  ],
+  "author": "TonNom",
+  "license": "MIT"
+}
+

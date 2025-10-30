@@ -10,11 +10,12 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.22.2"
+    "framer-motion": "^12.23.24",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.30.1",
+    "react-scripts": "^5.0.1"
   },
-  "devDependencies": {},
   "keywords": [
     "react",
     "homepage",
@@ -22,6 +23,17 @@
     "myglowskills"
   ],
   "author": "TonNom",
-  "license": "MIT"
+  "license": "MIT",
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
-

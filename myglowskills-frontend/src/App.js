@@ -1,8 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import HomePage from './components/HomePage';
-// Remplace ceci par ton vrai composant Login
-const Login = () => <div>Page de connexion à implémenter</div>;
+import React, { useEffect, useState } from 'react';
+import api from './services/api';
 
 function App() {
   const [data, setData] = useState([]);
@@ -14,12 +11,10 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<Login />} />
-      </Routes>
-    </Router>
+    <div>
+      <h1>Mes données :</h1>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
+    </div>
   );
 }
 

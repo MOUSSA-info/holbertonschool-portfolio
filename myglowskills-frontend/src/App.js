@@ -5,6 +5,14 @@ import HomePage from './components/HomePage';
 const Login = () => <div>Page de connexion à implémenter</div>;
 
 function App() {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    api.get('/items') // adapte le endpoint selon ton backend
+      .then(response => setData(response.data))
+      .catch(error => console.error(error));
+  }, []);
+
   return (
     <Router>
       <Routes>

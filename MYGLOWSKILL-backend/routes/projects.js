@@ -9,10 +9,13 @@ const auth = (req, res, next) => {
   if (!token) return res.status(401).json({ message: 'Accès refusé' });
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log("try connect", token)
+    const decoded = jwt.verify(token.split(" ")[1], process.env.JWT_SECRET);
+    console.log(decoded);
     req.user = decoded;
     next();
-  } catch {
+  } catch (err) {
+    console.log(err)
     return res.status(401).json({ message: 'Token invalide' });
   }
 };

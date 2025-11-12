@@ -29,7 +29,7 @@ mongoose.connect(process.env.MONGO_URI, {
 // ====================
 // 📡 Import des routes API
 // ====================
-try {
+//try {
   const authRoutes = require('./routes/auth');
   const projectRoutes = require('./routes/projects');
   const securityRoutes = require('./routes/security'); // ✅ ajouté
@@ -39,14 +39,14 @@ try {
   app.use('/projects', projectRoutes);
   app.use('/api/v1/security', securityRoutes);  // ✅ nouvelles routes sécurité
   app.use('/api/v1/users', usersRoutes);        // ✅ route profil utilisateur (optionnel)
-} catch (err) {
-  console.error('Erreur chargement routes:', err.message);
-}
+//} catch (err) {
+  //console.error('Erreur chargement routes:', err.message);
+//}
 
 // ====================
 // 🌐 Frontend React build
 // ====================
-const FRONT_BUILD_PATH = path.join(__dirname, '../MYGLOWSKILLS-frontend/build');
+const FRONT_BUILD_PATH = path.join(__dirname, '../MYGLOWSKILLS-frontend/build_ttt');
 if (fs.existsSync(FRONT_BUILD_PATH)) {
   app.use(express.static(FRONT_BUILD_PATH));
   app.get('*', (req, res) => {

@@ -29,7 +29,7 @@ function Login() {
       console.log('Token reçu du backend :', loginRes.data.token);
 
       localStorage.setItem('token', loginRes.data.token);
-      navigate('/projects');
+      navigate('/Dashboard');
     } catch (err) {
       setError(err.response?.data?.message || 'Erreur lors de la connexion');
     }

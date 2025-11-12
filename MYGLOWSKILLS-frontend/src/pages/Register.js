@@ -14,7 +14,7 @@ function Register() {
   // Redirection si déjà connecté
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (token) navigate('/projects');
+    if (token) navigate('/Dashboard');
   }, [navigate]);
 
   const handleRegister = async (e) => {

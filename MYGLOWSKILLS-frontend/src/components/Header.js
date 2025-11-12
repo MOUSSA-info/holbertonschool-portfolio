@@ -7,8 +7,8 @@ function Header() {
       <h1>MyGlowSkills</h1>
       <nav>
         <Link to="/">Accueil</Link>
-        <Link to="/projects">Projets</Link>
         <Link to="/login">Connexion</Link>
+        <Link to="/dashboard">Dashboard</Link>
       </nav>
     </header>
   );

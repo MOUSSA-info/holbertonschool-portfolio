@@ -37,8 +37,8 @@ mongoose.connect(process.env.MONGO_URI, {
 
   app.use('/auth', authRoutes);
   app.use('/projects', projectRoutes);
-  app.use('/api/v1/security', securityRoutes);  // ✅ nouvelles routes sécurité
-  app.use('/api/v1/users', usersRoutes);        // ✅ route profil utilisateur (optionnel)
+  app.use('/api/security', securityRoutes);  // ✅ nouvelles routes sécurité
+  app.use('/api/users', usersRoutes);        // ✅ route profil utilisateur (optionnel)
 //} catch (err) {
   //console.error('Erreur chargement routes:', err.message);
 //}

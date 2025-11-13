@@ -1,4 +1,3 @@
-// utils/passwordGen.js
 function generatePassword(length = 12) {
   const sets = [
     'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
@@ -6,10 +5,19 @@ function generatePassword(length = 12) {
     '0123456789',
     '!@#$%^&*()_+-=[]{}|;:,.<>?'
   ];
-  let all = sets.join('');
-  let pwd = sets.map(s => s[Math.floor(Math.random() * s.length)]).join('');
-  while (pwd.length < length) pwd += all[Math.floor(Math.random() * all.length)];
+
+  // On prend au moins un caractère de chaque type
+  let pwd = sets.map(set => set[Math.floor(Math.random() * set.length)]).join('');
+
+  // Remplir le reste du mot de passe
+  const all = sets.join('');
+  while (pwd.length < length) {
+    pwd += all[Math.floor(Math.random() * all.length)];
+  }
+
+  // Mélanger les caractères pour plus d’aléatoire
   return pwd.split('').sort(() => 0.5 - Math.random()).join('').slice(0, length);
 }
 
-module.exports = { generatePassword };
+// Export
+module.exports = generatePassword;

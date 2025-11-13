@@ -2,7 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const { encryptFile } = require('../utils/cryptoFiles');
-const { generatePassword } = require('../utils/passwordGen');
+const  generatePassword  = require('../utils/passwordGen');
 
 // ==============================
 // 🔍 Vue d’ensemble de la sécurité
@@ -95,9 +95,14 @@ exports.backupFile = async (req, res) => {
 // ==============================
 // 🔑 Générateur de mot de passe
 // ==============================
+// controllers/securityController.js
+// Endpoint pour générer le mot de passe
+
 exports.passwordGenerator = (req, res) => {
   try {
+    console.log('Génération mot de passe...');
     const pwd = generatePassword(16);
+    console.log('Mot de passe généré:', pwd);
     res.status(200).json({ success: true, password: pwd });
   } catch (err) {
     console.error('Erreur passwordGenerator:', err);

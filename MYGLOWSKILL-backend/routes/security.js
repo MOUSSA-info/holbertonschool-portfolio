@@ -24,6 +24,6 @@ router.post('/encrypt', auth, upload.single('file'), securityCtrl.encryptFile);
 router.post('/backup', auth, upload.single('file'), securityCtrl.backupFile);
 
 // Générateur de mot de passe fort
-router.get('/password-generator', auth, securityCtrl.passwordGenerator);
+router.get('/password-generator', securityCtrl.passwordGenerator);
 
 module.exports = router;

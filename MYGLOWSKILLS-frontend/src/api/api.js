@@ -13,4 +13,13 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+
+
+
+export const generatePassword = () => {
+  return api.get('/api/security/password-generator');
+};
+
+
+
 export default api;

@@ -14,7 +14,7 @@ function Register() {
   // Redirection si déjà connecté
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (token) navigate('/Dashboard');
+    if (token) navigate('/register');
   }, [navigate]);
 
   const handleRegister = async (e) => {
@@ -42,7 +42,7 @@ function Register() {
       localStorage.setItem('token', loginRes.data.token);
 
       // Redirection vers /projects
-      navigate('/projects');
+      navigate('/Dashboard');
     } catch (err) {
       setError(err.response?.data?.message || 'Erreur lors de l\'inscription');
     }

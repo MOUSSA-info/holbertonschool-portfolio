@@ -13,7 +13,7 @@ function Login() {
   // Redirection si déjà connecté
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (token) navigate('/projects');
+    if (token) navigate('/login');
   }, [navigate]);
 
   const handleLogin = async (e) => {

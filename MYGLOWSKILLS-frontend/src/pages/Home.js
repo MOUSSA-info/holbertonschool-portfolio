@@ -6,7 +6,7 @@ function Home() {
     <div className="home">
       <h1>Bienvenue sur MyGlowSkills</h1>
       <p>Découvrez vos projets et gérez vos données en toute sécurité.</p>
-      <Link to="/projects" className="btn">Voir les projets</Link>
+      <Link to="/login" className="btn">Voir les projets</Link>
     </div>
   );
 }

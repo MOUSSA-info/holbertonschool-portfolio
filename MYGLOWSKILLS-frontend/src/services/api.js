@@ -32,8 +32,9 @@ export const backupFile = (file) => {
   });
 };
 
-export const generatePassword = () => API.get("/security/password-generator");
-
+export const generatePassword = () => {
+  return axios.get("http://localhost:5000/api/password"); // URL vers ton backend
+};
 /* ------------------ Authentification ------------------ */
 export const login = (email, password) => API.post("/auth/login", { email, password });
 export const register = (name, email, password) => API.post("/auth/register", { name, email, password });

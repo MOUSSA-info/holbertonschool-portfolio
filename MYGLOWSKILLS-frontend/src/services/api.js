@@ -19,25 +19,19 @@ export const analyzeSecurity = () => API.post("/api/security/analyze");
 export const encryptFile = (file) => {
   const formData = new FormData();
   formData.append("file", file);
-  return API.post("/api/security/encrypt", formData, {
-    headers: { "Content-Type": "multipart/form-data" },
-  });
+  return API.post("/api/security/encrypt", formData);
 };
 
 export const decryptFile = (file) => {
   const formData = new FormData();
   formData.append("file", file);
-  return API.post("/api/security/decrypt", formData, {
-    headers: { "Content-Type": "multipart/form-data" },
-  });
+  return API.post("/api/security/decrypt", formData);
 };
 
 export const backupFile = (file) => {
   const formData = new FormData();
   formData.append("file", file);
-  return API.post("/api/security/backup", formData, {
-    headers: { "Content-Type": "multipart/form-data" },
-  });
+  return API.post("/api/security/backup", formData);
 };
 
 export const generatePassword = () => {

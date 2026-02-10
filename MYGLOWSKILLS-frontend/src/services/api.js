@@ -13,13 +13,13 @@ API.interceptors.request.use((config) => {
 });
 
 /* ------------------ Sécurité ------------------ */
-export const getOverview = () => API.get("/security/overview");
-export const analyzeSecurity = () => API.post("/security/analyze");
+export const getOverview = () => API.get("/api/security/overview");
+export const analyzeSecurity = () => API.post("/api/security/analyze");
 
 export const encryptFile = (file) => {
   const formData = new FormData();
   formData.append("file", file);
-  return API.post("/security/encrypt", formData, {
+  return API.post("/api/security/encrypt", formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });
 };
@@ -27,7 +27,7 @@ export const encryptFile = (file) => {
 export const decryptFile = (file) => {
   const formData = new FormData();
   formData.append("file", file);
-  return API.post("/security/decrypt", formData, {
+  return API.post("/api/security/decrypt", formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });
 };
@@ -35,7 +35,7 @@ export const decryptFile = (file) => {
 export const backupFile = (file) => {
   const formData = new FormData();
   formData.append("file", file);
-  return API.post("/security/backup", formData, {
+  return API.post("/api/security/backup", formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });
 };

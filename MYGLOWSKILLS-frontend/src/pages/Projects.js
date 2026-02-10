@@ -11,7 +11,7 @@ function Projects() {
     const token = localStorage.getItem('token');
     if (!token) return navigate('/login');
 
-    api.get('/projects', { headers: { Authorization: token } })
+    api.get('/projects')
       .then(res => setProjects(res.data))
       .catch(() => {
         setError('Impossible de charger les projets.');

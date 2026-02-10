@@ -9,7 +9,7 @@ export default function Analyze() {
     setLoading(true);
     try {
       const res = await analyzeSecurity();
-      setReport(res.data);
+      setReport(res.data.data);
     } catch (err) {
       console.error(err);
       setReport(null);

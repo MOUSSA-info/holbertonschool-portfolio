@@ -13,11 +13,9 @@ export default function Backup() {
     }
 
     setLoading(true);
-    const formData = new FormData();
-    formData.append("file", file);
 
     try {
-      const res = await backupFile(formData);
+      const res = await backupFile(file);
       setMsg(res.data.message + (res.data.path ? ` - Chemin: ${res.data.path}` : ""));
     } catch (err) {
       console.error(err);

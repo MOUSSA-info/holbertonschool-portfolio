@@ -4,7 +4,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import PrivateRoute from './components/PrivateRoute';
 
-import Home from './pages/Home';
+import HomePage from './components/HomePage';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Projects from './pages/Projects';
@@ -39,7 +39,7 @@ function App() {
       <Header />
       <Routes>
         {/* Pages publiques */}
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/legal" element={<Legal />} />

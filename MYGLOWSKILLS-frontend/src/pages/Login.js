@@ -13,7 +13,7 @@ function Login() {
   // Redirection si déjà connecté
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (token) navigate('/login');
+    if (token) navigate('/dashboard');
   }, [navigate]);
 
   const handleLogin = async (e) => {
@@ -29,7 +29,7 @@ function Login() {
       console.log('Token reçu du backend :', loginRes.data.token);
 
       localStorage.setItem('token', loginRes.data.token);
-      navigate('/Dashboard');
+      navigate('/dashboard');
     } catch (err) {
       setError(err.response?.data?.message || 'Erreur lors de la connexion');
     }

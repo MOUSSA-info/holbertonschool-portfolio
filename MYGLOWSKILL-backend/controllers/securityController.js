@@ -20,7 +20,7 @@ exports.overview = async (req, res) => {
     });
   } catch (err) {
     console.error('Erreur overview:', err);
-    res.status(500).json({ success: false, message: 'Erreur lors de la récupération de l’overview' });
+    res.status(500).json({ success: false, message: "Erreur lors de la récupération de l'overview" });
   }
 };
 
@@ -40,7 +40,7 @@ exports.analyze = async (req, res) => {
     res.status(200).json({ success: true, data: report });
   } catch (err) {
     console.error('Erreur analyze:', err);
-    res.status(500).json({ success: false, message: 'Erreur lors de l’analyse de sécurité' });
+    res.status(500).json({ success: false, message: "Erreur lors de l'analyse de sécurité" });
   }
 };
 
@@ -71,12 +71,45 @@ exports.encryptFile = async (req, res) => {
 };
 
 // ==============================
-// 💾 Sauvegarde sécurisée
+// 🔓 Déchiffrement de fichier
 // ==============================
-exports.backupFile = async (req, res) => {
+exports.decryptFile = async (req, res) => {
   try {
     const file = req.file;
     if (!file) return res.status(400).json({ success: false, message: 'Fichier manquant' });
+
+    const key = process.env.FILE_ENCRYPTION_KEY || 'changemechangemechangeme12';
+    const outPath = path.join('uploads', `${file.filename}.dec`);
+
+    const { decryptFile: decrypt } = require('../utils/cryptoFiles');
+    await decrypt(file.path, outPath, key);
+
+    fs.unlinkSync(file.path); // supprime le fichier chiffré original
+
+    res.status(200).json({
+      success: true,
+      message: 'Fichier déchiffré avec succès',
+      downloadUrl: `/uploads/${path.basename(outPath)}`,
+    });
+  } catch (err) {
+    console.error('Erreur decryptFile:', err);
+    res.status(500).json({ success: false, message: 'Erreur lors du déchiffrement' });
+  }
+};
+
+// ==============================
+// 💾 Sauvegarde sécurisée
+// ==============================
+exports.backupFile = async (req, res) => {
+
+
+  try {
+    const file = req.file;
+    if (!file) return res.status(400).json({ success: false, message: 'Fichier manquant' });
+
+    console.log('📂 Fichier reçu :', file);
+    console.log('📁 Chemin temporaire :', file.path);
+
 
     const dest = path.join('uploads', `backup-${req.user?.id || 'anon'}-${Date.now()}-${file.originalname}`);
     fs.renameSync(file.path, dest);

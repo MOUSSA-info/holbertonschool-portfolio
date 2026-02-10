@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || "http://localhost:5000/api/v1",
+  baseURL: process.env.REACT_APP_API_URL || "http://localhost:5000",
 });
 
 // Intercepteur pour ajouter automatiquement le token JWT
@@ -24,6 +24,14 @@ export const encryptFile = (file) => {
   });
 };
 
+export const decryptFile = (file) => {
+  const formData = new FormData();
+  formData.append("file", file);
+  return API.post("/security/decrypt", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+};
+
 export const backupFile = (file) => {
   const formData = new FormData();
   formData.append("file", file);
@@ -33,7 +41,7 @@ export const backupFile = (file) => {
 };
 
 export const generatePassword = () => {
-  return axios.get("http://localhost:5000/api/password"); // URL vers ton backend
+  return API.get("/api/security/password-generator");
 };
 /* ------------------ Authentification ------------------ */
 export const login = (email, password) => API.post("/auth/login", { email, password });

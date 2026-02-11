@@ -1,0 +1,14 @@
+<svg width="220" height="220" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Logo MyGlowSkill">
+  <title>Logo MyGlowSkill</title>
+  <defs>
+    <style>
+      .hex { fill:#C33B19; }
+      .text-white { fill:#fff; font-family: Arial, sans-serif; font-weight: bold; font-size: 72px; }
+    </style>
+  </defs>
+  <!-- Hexagon shape -->
+  <polygon class="hex" points="110,10 189,55 189,155 110,200 31,155 31,55" />
+  <!-- Text MGS centered -->
+  <text x="110" y="135" text-anchor="middle" class="text-white">MGS</text>
+</svg>
+

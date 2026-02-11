@@ -2,17 +2,14 @@ import React, { useState } from "react";
 import { encryptFile, decryptFile } from "../../services/api";
 
 export default function EncryptFile() {
-  const [file, setFile] = useState(null);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState("encrypt");
 
-  const handleAction = async () => {
-    if (!file) {
-      alert("Veuillez choisir un fichier !");
-      return;
-    }
+  const handleFileChange = async (e) => {
+    const selected = e.target.files[0];
+    if (!selected) return;
 
     setLoading(true);
     setError(null);
@@ -20,9 +17,9 @@ export default function EncryptFile() {
     try {
       let res;
       if (mode === "encrypt") {
-        res = await encryptFile(file);
+        res = await encryptFile(selected);
       } else {
-        res = await decryptFile(file);
+        res = await decryptFile(selected);
       }
       setResult(
         res.data.message +
@@ -69,20 +66,16 @@ export default function EncryptFile() {
 
       <input
         type="file"
-        onChange={(e) => setFile(e.target.files[0])}
+        onChange={handleFileChange}
         className="mb-4"
+        disabled={loading}
       />
 
-      <button
-        onClick={handleAction}
-        className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-      >
-        {loading
-          ? `${mode === "encrypt" ? "Chiffrement" : "Déchiffrement"} en cours...`
-          : mode === "encrypt"
-            ? "Chiffrer"
-            : "Déchiffrer"}
-      </button>
+      {loading && (
+        <p className="mt-2 text-yellow-600">
+          {mode === "encrypt" ? "Chiffrement" : "Déchiffrement"} en cours...
+        </p>
+      )}
 
       {error && (
         <div className="mt-4 p-3 bg-red-100 text-red-700 rounded">

@@ -2,20 +2,18 @@ import React, { useState } from "react";
 import { backupFile } from "../../services/api";
 
 export default function Backup() {
-  const [file, setFile] = useState(null);
   const [msg, setMsg] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const handleBackup = async () => {
-    if (!file) {
-      alert("Veuillez choisir un fichier !");
-      return;
-    }
+  const handleFileChange = async (e) => {
+    const selected = e.target.files[0];
+    if (!selected) return;
 
+    setMsg(null);
     setLoading(true);
 
     try {
-      const res = await backupFile(file);
+      const res = await backupFile(selected);
       setMsg(res.data.message + (res.data.path ? ` - Chemin: ${res.data.path}` : ""));
     } catch (err) {
       console.error(err);
@@ -30,17 +28,12 @@ export default function Backup() {
 
       <input
         type="file"
-        onChange={(e) => setFile(e.target.files[0])}
+        onChange={handleFileChange}
         className="mb-4"
+        disabled={loading}
       />
 
-      <button
-        onClick={handleBackup}
-        className="px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700"
-      >
-        {loading ? "Sauvegarde en cours..." : "Sauvegarder"}
-      </button>
-
+      {loading && <p className="mt-2 text-yellow-600">Sauvegarde en cours...</p>}
       {msg && <p className="mt-4 text-green-700">{msg}</p>}
     </div>
   );

@@ -14,13 +14,14 @@ export default function Analyze() {
       const res = await analyzeSecurity();
       setReport(res.data.data);
     } catch (err) {
-      console.error(err);
+      console.error("Analyze error:", err);
       setError(
         err.response?.data?.message ||
           "Erreur lors de l'analyse. Vérifiez votre connexion."
       );
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
@@ -28,7 +29,8 @@ export default function Analyze() {
       <h2 className="text-2xl font-bold mb-4">🧠 Analyse de Sécurité</h2>
       <button
         onClick={handleAnalyze}
-        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        disabled={loading}
+        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
       >
         {loading ? "Analyse en cours..." : "Lancer l'analyse"}
       </button>

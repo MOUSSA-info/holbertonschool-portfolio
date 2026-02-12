@@ -28,13 +28,15 @@ export default function EncryptFile() {
             : "")
       );
     } catch (err) {
-      console.error(err);
+      console.error("Encrypt/Decrypt error:", err);
       setError(
         err.response?.data?.message ||
           `Erreur lors du ${mode === "encrypt" ? "chiffrement" : "déchiffrement"} du fichier.`
       );
+    } finally {
+      setLoading(false);
+      e.target.value = "";
     }
-    setLoading(false);
   };
 
   return (

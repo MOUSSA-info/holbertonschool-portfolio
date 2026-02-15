@@ -20,6 +20,7 @@ router.post('/analyze', auth, securityCtrl.analyze);
 // Chiffrement de fichier uploadé
 router.post('/encrypt', auth, upload.single('file'), securityCtrl.encryptFile);
 
+
 // Sauvegarde sécurisée du fichier
 router.post('/backup', auth, upload.single('file'), securityCtrl.backupFile);
 

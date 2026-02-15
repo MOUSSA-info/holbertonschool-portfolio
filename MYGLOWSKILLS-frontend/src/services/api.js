@@ -22,11 +22,6 @@ export const encryptFile = (file) => {
   return API.post("/api/security/encrypt", formData);
 };
 
-export const decryptFile = (file) => {
-  const formData = new FormData();
-  formData.append("file", file);
-  return API.post("/api/security/decrypt", formData);
-};
 
 export const backupFile = (file) => {
   const formData = new FormData();

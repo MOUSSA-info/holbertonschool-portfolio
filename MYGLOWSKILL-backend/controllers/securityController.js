@@ -70,32 +70,6 @@ exports.encryptFile = async (req, res) => {
   }
 };
 
-// ==============================
-// 🔓 Déchiffrement de fichier
-// ==============================
-exports.decryptFile = async (req, res) => {
-  try {
-    const file = req.file;
-    if (!file) return res.status(400).json({ success: false, message: 'Fichier manquant' });
-
-    const key = process.env.FILE_ENCRYPTION_KEY || 'changemechangemechangeme12';
-    const outPath = path.join('uploads', `${file.filename}.dec`);
-
-    const { decryptFile: decrypt } = require('../utils/cryptoFiles');
-    await decrypt(file.path, outPath, key);
-
-    fs.unlinkSync(file.path); // supprime le fichier chiffré original
-
-    res.status(200).json({
-      success: true,
-      message: 'Fichier déchiffré avec succès',
-      downloadUrl: `/uploads/${path.basename(outPath)}`,
-    });
-  } catch (err) {
-    console.error('Erreur decryptFile:', err);
-    res.status(500).json({ success: false, message: 'Erreur lors du déchiffrement' });
-  }
-};
 
 // ==============================
 // 💾 Sauvegarde sécurisée

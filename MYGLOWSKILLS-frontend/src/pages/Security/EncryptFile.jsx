@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { encryptFile, decryptFile } from "../../services/api";
+import { encryptFile } from "../../services/api";
 
 export default function EncryptFile() {
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [mode, setMode] = useState("encrypt");
 
   const handleFileChange = async (e) => {
     const selected = e.target.files[0];
@@ -15,12 +14,7 @@ export default function EncryptFile() {
     setError(null);
     setResult(null);
     try {
-      let res;
-      if (mode === "encrypt") {
-        res = await encryptFile(selected);
-      } else {
-        res = await decryptFile(selected);
-      }
+      const res = await encryptFile(selected);
       setResult(
         res.data.message +
           (res.data.downloadUrl
@@ -28,10 +22,10 @@ export default function EncryptFile() {
             : "")
       );
     } catch (err) {
-      console.error("Encrypt/Decrypt error:", err);
+      console.error("Encrypt error:", err);
       setError(
         err.response?.data?.message ||
-          `Erreur lors du ${mode === "encrypt" ? "chiffrement" : "déchiffrement"} du fichier.`
+          "Erreur lors du chiffrement du fichier."
       );
     } finally {
       setLoading(false);
@@ -42,29 +36,8 @@ export default function EncryptFile() {
   return (
     <div className="p-6 bg-white rounded shadow-md">
       <h2 className="text-2xl font-bold mb-4">
-        🔐 Chiffrement / Déchiffrement de fichier
+        Chiffrement de fichier
       </h2>
-
-      <div className="mb-4">
-        <label className="mr-4">
-          <input
-            type="radio"
-            value="encrypt"
-            checked={mode === "encrypt"}
-            onChange={(e) => setMode(e.target.value)}
-          />
-          Chiffrer
-        </label>
-        <label>
-          <input
-            type="radio"
-            value="decrypt"
-            checked={mode === "decrypt"}
-            onChange={(e) => setMode(e.target.value)}
-          />
-          Déchiffrer
-        </label>
-      </div>
 
       <input
         type="file"
@@ -74,9 +47,7 @@ export default function EncryptFile() {
       />
 
       {loading && (
-        <p className="mt-2 text-yellow-600">
-          {mode === "encrypt" ? "Chiffrement" : "Déchiffrement"} en cours...
-        </p>
+        <p className="mt-2 text-yellow-600">Chiffrement en cours...</p>
       )}
 
       {error && (

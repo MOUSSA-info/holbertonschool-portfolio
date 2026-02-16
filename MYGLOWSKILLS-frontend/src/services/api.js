@@ -12,6 +12,18 @@ API.interceptors.request.use((config) => {
   return config;
 });
 
+// Intercepteur de réponse : si token expiré, rediriger vers /login
+API.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+      localStorage.removeItem("token");
+      window.location.href = "/login";
+    }
+    return Promise.reject(error);
+  }
+);
+
 /* ------------------ Sécurité ------------------ */
 export const getOverview = () => API.get("/api/security/overview");
 export const analyzeSecurity = () => API.post("/api/security/analyze");

@@ -3,6 +3,7 @@ import { encryptFile } from "../../services/api";
 
 export default function EncryptFile() {
   const [result, setResult] = useState(null);
+  const [downloadUrl, setDownloadUrl] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -13,14 +14,14 @@ export default function EncryptFile() {
     setLoading(true);
     setError(null);
     setResult(null);
+    setDownloadUrl(null);
     try {
       const res = await encryptFile(selected);
-      setResult(
-        res.data.message +
-          (res.data.downloadUrl
-            ? ` — Téléchargez ici: ${res.data.downloadUrl}`
-            : "")
-      );
+      setResult(res.data.message);
+      if (res.data.downloadUrl) {
+        const baseUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
+        setDownloadUrl(baseUrl + res.data.downloadUrl);
+      }
     } catch (err) {
       console.error("Encrypt error:", err);
       setError(
@@ -58,7 +59,16 @@ export default function EncryptFile() {
 
       {result && (
         <div className="mt-4 p-3 bg-green-100 text-green-700 rounded">
-          {result}
+          <p>{result}</p>
+          {downloadUrl && (
+            <a
+              href={downloadUrl}
+              download
+              className="inline-block mt-3 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition"
+            >
+              Telecharger le fichier chiffre
+            </a>
+          )}
         </div>
       )}
     </div>

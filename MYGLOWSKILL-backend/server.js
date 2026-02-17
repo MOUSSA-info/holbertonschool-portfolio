@@ -46,7 +46,7 @@ mongoose.connect(process.env.MONGO_URI, {
 // ====================
 // 🌐 Frontend React build
 // ====================
-const FRONT_BUILD_PATH = path.join(__dirname, '../MYGLOWSKILLS-frontend/build_ttt');
+const FRONT_BUILD_PATH = path.join(__dirname, '../MYGLOWSKILLS-frontend/build');
 if (fs.existsSync(FRONT_BUILD_PATH)) {
   app.use(express.static(FRONT_BUILD_PATH));
   app.get('*', (req, res) => {

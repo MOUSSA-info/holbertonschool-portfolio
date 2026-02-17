@@ -13,7 +13,7 @@ export default function Sidebar() {
         <Link to="/security/analyze" className="hover:bg-gray-200 p-2 rounded">Analyse</Link>
         <Link to="/security/encrypt" className="hover:bg-gray-200 p-2 rounded">Chiffrer fichier</Link>
         <Link to="/security/backup" className="hover:bg-gray-200 p-2 rounded">Backup</Link>
-        <Link to="/security/backups" className="hover:bg-gray-200 p-2 rounded">Mes Backups</Link>
+        <Link to="/security/backups" className="hover:bg-gray-200 p-2 rounded">Mes Fichiers</Link>
         <Link to="/security/password-generator" className="hover:bg-gray-200 p-2 rounded">Générateur mot de passe</Link>
 
         <h3 className="font-semibold mt-4">Profil</h3>

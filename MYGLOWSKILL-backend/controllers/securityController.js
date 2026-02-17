@@ -52,8 +52,9 @@ exports.encryptFile = async (req, res) => {
     const file = req.file;
     if (!file) return res.status(400).json({ success: false, message: 'Fichier manquant' });
 
+    const userId = req.user?.id || 'anon';
     const key = process.env.FILE_ENCRYPTION_KEY || 'changemechangemechangeme12';
-    const outPath = path.join('uploads', `${file.filename}.enc`);
+    const outPath = path.join('uploads', `enc-${userId}-${Date.now()}-${file.originalname}.enc`);
 
     await encryptFile(file.path, outPath, key);
 
@@ -108,27 +109,33 @@ exports.listBackups = async (req, res) => {
     const uploadsDir = path.join(__dirname, '..', 'uploads');
     const files = fs.readdirSync(uploadsDir);
 
-    const backups = files
-      .filter(f => f.startsWith(`backup-${userId}-`))
+    const backupPrefix = `backup-${userId}-`;
+    const encPrefix = `enc-${userId}-`;
+
+    const results = files
+      .filter(f => f.startsWith(backupPrefix) || f.startsWith(encPrefix))
       .map(f => {
         const stat = fs.statSync(path.join(uploadsDir, f));
-        // Format: backup-{userId}-{timestamp}-{originalname}
-        const parts = f.replace(`backup-${userId}-`, '');
-        const dashIndex = parts.indexOf('-');
-        const timestamp = parseInt(parts.substring(0, dashIndex), 10);
-        const originalName = parts.substring(dashIndex + 1);
+        const isEncrypted = f.startsWith(encPrefix);
+        const prefix = isEncrypted ? encPrefix : backupPrefix;
+        const rest = f.replace(prefix, '');
+        const dashIndex = rest.indexOf('-');
+        const timestamp = parseInt(rest.substring(0, dashIndex), 10);
+        let originalName = rest.substring(dashIndex + 1);
+        if (isEncrypted) originalName = originalName.replace(/\.enc$/, '');
 
         return {
           filename: f,
           originalName,
           size: stat.size,
+          type: isEncrypted ? 'encrypted' : 'backup',
           createdAt: new Date(timestamp).toISOString(),
           downloadUrl: `/api/security/backups/download/${encodeURIComponent(f)}`,
         };
       })
       .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
-    res.status(200).json({ success: true, data: backups });
+    res.status(200).json({ success: true, data: results });
   } catch (err) {
     console.error('Erreur listBackups:', err);
     res.status(500).json({ success: false, message: 'Erreur lors de la récupération des backups' });
@@ -143,26 +150,31 @@ exports.downloadBackup = async (req, res) => {
     const userId = req.user?.id || 'anon';
     const { filename } = req.params;
 
+    const backupPrefix = `backup-${userId}-`;
+    const encPrefix = `enc-${userId}-`;
+
     // Vérifier que le fichier appartient à l'utilisateur
-    if (!filename.startsWith(`backup-${userId}-`)) {
+    if (!filename.startsWith(backupPrefix) && !filename.startsWith(encPrefix)) {
       return res.status(403).json({ success: false, message: 'Accès refusé' });
     }
 
     const filePath = path.join(__dirname, '..', 'uploads', filename);
 
     if (!fs.existsSync(filePath)) {
-      return res.status(404).json({ success: false, message: 'Backup introuvable' });
+      return res.status(404).json({ success: false, message: 'Fichier introuvable' });
     }
 
     // Extraire le nom original pour le téléchargement
-    const parts = filename.replace(`backup-${userId}-`, '');
-    const dashIndex = parts.indexOf('-');
-    const originalName = parts.substring(dashIndex + 1);
+    const isEncrypted = filename.startsWith(encPrefix);
+    const prefix = isEncrypted ? encPrefix : backupPrefix;
+    const rest = filename.replace(prefix, '');
+    const dashIndex = rest.indexOf('-');
+    const originalName = rest.substring(dashIndex + 1);
 
     res.download(filePath, originalName);
   } catch (err) {
     console.error('Erreur downloadBackup:', err);
-    res.status(500).json({ success: false, message: 'Erreur lors du téléchargement du backup' });
+    res.status(500).json({ success: false, message: 'Erreur lors du téléchargement du fichier' });
   }
 };
 

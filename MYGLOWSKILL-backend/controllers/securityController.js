@@ -100,6 +100,73 @@ exports.backupFile = async (req, res) => {
 };
 
 // ==============================
+// 📋 Lister les backups de l'utilisateur
+// ==============================
+exports.listBackups = async (req, res) => {
+  try {
+    const userId = req.user?.id || 'anon';
+    const uploadsDir = path.join(__dirname, '..', 'uploads');
+    const files = fs.readdirSync(uploadsDir);
+
+    const backups = files
+      .filter(f => f.startsWith(`backup-${userId}-`))
+      .map(f => {
+        const stat = fs.statSync(path.join(uploadsDir, f));
+        // Format: backup-{userId}-{timestamp}-{originalname}
+        const parts = f.replace(`backup-${userId}-`, '');
+        const dashIndex = parts.indexOf('-');
+        const timestamp = parseInt(parts.substring(0, dashIndex), 10);
+        const originalName = parts.substring(dashIndex + 1);
+
+        return {
+          filename: f,
+          originalName,
+          size: stat.size,
+          createdAt: new Date(timestamp).toISOString(),
+          downloadUrl: `/api/security/backups/download/${encodeURIComponent(f)}`,
+        };
+      })
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+    res.status(200).json({ success: true, data: backups });
+  } catch (err) {
+    console.error('Erreur listBackups:', err);
+    res.status(500).json({ success: false, message: 'Erreur lors de la récupération des backups' });
+  }
+};
+
+// ==============================
+// ⬇️ Télécharger un backup
+// ==============================
+exports.downloadBackup = async (req, res) => {
+  try {
+    const userId = req.user?.id || 'anon';
+    const { filename } = req.params;
+
+    // Vérifier que le fichier appartient à l'utilisateur
+    if (!filename.startsWith(`backup-${userId}-`)) {
+      return res.status(403).json({ success: false, message: 'Accès refusé' });
+    }
+
+    const filePath = path.join(__dirname, '..', 'uploads', filename);
+
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({ success: false, message: 'Backup introuvable' });
+    }
+
+    // Extraire le nom original pour le téléchargement
+    const parts = filename.replace(`backup-${userId}-`, '');
+    const dashIndex = parts.indexOf('-');
+    const originalName = parts.substring(dashIndex + 1);
+
+    res.download(filePath, originalName);
+  } catch (err) {
+    console.error('Erreur downloadBackup:', err);
+    res.status(500).json({ success: false, message: 'Erreur lors du téléchargement du backup' });
+  }
+};
+
+// ==============================
 // 🔑 Générateur de mot de passe
 // ==============================
 // controllers/securityController.js

@@ -24,6 +24,12 @@ router.post('/encrypt', auth, upload.single('file'), securityCtrl.encryptFile);
 // Sauvegarde sécurisée du fichier
 router.post('/backup', auth, upload.single('file'), securityCtrl.backupFile);
 
+// Lister les backups de l'utilisateur
+router.get('/backups', auth, securityCtrl.listBackups);
+
+// Télécharger un backup
+router.get('/backups/download/:filename', auth, securityCtrl.downloadBackup);
+
 // Générateur de mot de passe fort
 router.get('/password-generator', securityCtrl.passwordGenerator);
 

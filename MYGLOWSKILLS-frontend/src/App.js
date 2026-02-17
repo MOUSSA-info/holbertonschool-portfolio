@@ -15,6 +15,7 @@ import Overview from './pages/Security/Overview';
 import Analyze from './pages/Security/Analyze';
 import EncryptFile from './pages/Security/EncryptFile';
 import Backup from './pages/Security/Backup';
+import BackupList from './pages/Security/BackupList';
 import PasswordGenerator from './pages/Security/PasswordGenerator';
 
 // Profile
@@ -53,6 +54,7 @@ function App() {
         <Route path="/security/analyze" element={<PrivateRoute><Analyze /></PrivateRoute>} />
         <Route path="/security/encrypt" element={<PrivateRoute><EncryptFile /></PrivateRoute>} />
         <Route path="/security/backup" element={<PrivateRoute><Backup /></PrivateRoute>} />
+        <Route path="/security/backups" element={<PrivateRoute><BackupList /></PrivateRoute>} />
         <Route path="/security/password-generator" element={<PrivateRoute><PasswordGenerator /></PrivateRoute>} />
 
         {/* Profile */}

@@ -41,6 +41,13 @@ export const backupFile = (file) => {
   return API.post("/api/security/backup", formData);
 };
 
+export const listBackups = () => API.get("/api/security/backups");
+
+export const downloadBackup = (filename) =>
+  API.get(`/api/security/backups/download/${encodeURIComponent(filename)}`, {
+    responseType: "blob",
+  });
+
 export const generatePassword = () => {
   return API.get("/api/security/password-generator");
 };

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { backupFile } from "../../services/api";
 
 export default function Backup() {
@@ -47,7 +48,15 @@ export default function Backup() {
       )}
 
       {msg && (
-        <div className="mt-4 p-3 bg-green-100 text-green-700 rounded">{msg}</div>
+        <div className="mt-4 p-3 bg-green-100 text-green-700 rounded">
+          <p>{msg}</p>
+          <Link
+            to="/security/backups"
+            className="inline-block mt-3 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition"
+          >
+            Voir mes fichiers
+          </Link>
+        </div>
       )}
     </div>
   );

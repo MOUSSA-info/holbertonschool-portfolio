@@ -41,6 +41,42 @@ header nav a:hover {
   color: #f0a500;
 }
 
+header nav button {
+  background: none;
+  border: none;
+  color: #fff;
+  margin: 0 15px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.3s;
+  padding: 0;
+  font-family: inherit;
+}
+
+header nav button:hover {
+  color: #f0a500;
+}
+
+header nav .btn-back {
+  background-color: transparent;
+  border: 1px solid #f0a500;
+  color: #f0a500;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+  margin: 0 15px;
+  font-family: inherit;
+}
+
+header nav .btn-back:hover {
+  background-color: #f0a500;
+  color: #0d1117;
+}
+
 /* ===================== Footer ===================== */
 footer {
   background-color: #0d1117;

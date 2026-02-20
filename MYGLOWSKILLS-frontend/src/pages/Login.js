@@ -29,6 +29,7 @@ function Login() {
       });
 
       localStorage.setItem('token', loginRes.data.token);
+      window.dispatchEvent(new Event('authChange'));
       navigate('/dashboard');
     } catch (err) {
       console.error('Login error:', err);

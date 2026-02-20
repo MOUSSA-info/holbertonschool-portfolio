@@ -32,17 +32,8 @@ function Register() {
       // Création de l'utilisateur
       await api.post('/auth/register', userData);
 
-      // Login automatique
-      const loginRes = await api.post('/auth/login', userData);
-
-      // Affiche le token reçu pour debug
-      console.log('Token reçu du backend :', loginRes.data.token);
-
-      // Stockage du token
-      localStorage.setItem('token', loginRes.data.token);
-
-      // Redirection vers /projects
-      navigate('/dashboard');
+      // Redirection vers la page de connexion
+      navigate('/login');
     } catch (err) {
       setError(err.response?.data?.message || 'Erreur lors de l\'inscription');
     }

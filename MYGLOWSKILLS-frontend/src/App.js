@@ -20,7 +20,6 @@ import PasswordGenerator from './pages/Security/PasswordGenerator';
 
 // Profile
 import Settings from './pages/Profile/Settings';
-import Roles from './pages/Profile/Roles';
 
 // Support
 import Contact from './pages/Support/Contact';
@@ -59,7 +58,6 @@ function App() {
 
         {/* Profile */}
         <Route path="/profile/settings" element={<PrivateRoute><Settings /></PrivateRoute>} />
-        <Route path="/profile/roles" element={<PrivateRoute><Roles /></PrivateRoute>} />
 
         {/* Support */}
         <Route path="/support/contact" element={<PrivateRoute><Contact /></PrivateRoute>} />

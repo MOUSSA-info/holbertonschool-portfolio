@@ -1,0 +1,203 @@
+/* ===================== Support Pages ===================== */
+.support-page {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.support-header {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.support-header h1 {
+  font-size: 2rem;
+  color: #0d1117;
+  margin-bottom: 10px;
+}
+
+.support-header p {
+  color: #666;
+  font-size: 1.05rem;
+}
+
+/* ===================== Card ===================== */
+.support-card {
+  background: #fff;
+  border-radius: 15px;
+  padding: 35px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* ===================== Contact Form ===================== */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #0d1117;
+  font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.3s;
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #f0a500;
+}
+
+.support-btn {
+  background-color: #f0a500;
+  color: #0d1117;
+  border: none;
+  padding: 13px 25px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-family: inherit;
+  align-self: flex-start;
+}
+
+.support-btn:hover {
+  background-color: #ffdd00;
+}
+
+.support-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.support-alert {
+  margin-top: 20px;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.support-alert.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.support-alert.error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* ===================== FAQ ===================== */
+.faq-item {
+  border-bottom: 1px solid #eee;
+}
+
+.faq-item:last-child {
+  border-bottom: none;
+}
+
+.faq-question {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 18px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #0d1117;
+  font-family: inherit;
+  text-align: left;
+  transition: color 0.3s;
+}
+
+.faq-question:hover {
+  color: #f0a500;
+}
+
+.faq-icon {
+  color: #f0a500;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  margin-left: 10px;
+}
+
+.faq-answer {
+  padding: 0 0 18px 0;
+  color: #555;
+  line-height: 1.6;
+  font-size: 0.97rem;
+}
+
+/* ===================== Guide ===================== */
+.guide-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+}
+
+.guide-step {
+  background: #fff;
+  border-radius: 15px;
+  padding: 28px 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+  transition: transform 0.3s, box-shadow 0.3s;
+  text-align: center;
+}
+
+.guide-step:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.guide-icon {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+}
+
+.guide-step h3 {
+  color: #0d1117;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+.guide-step p {
+  color: #666;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+/* ===================== Responsive ===================== */
+@media (max-width: 768px) {
+  .support-page {
+    margin: 20px auto;
+  }
+
+  .support-card {
+    padding: 25px 20px;
+  }
+
+  .guide-grid {
+    grid-template-columns: 1fr;
+  }
+}

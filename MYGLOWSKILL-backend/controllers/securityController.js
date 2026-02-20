@@ -9,15 +9,36 @@ const  generatePassword  = require('../utils/passwordGen');
 // ==============================
 exports.overview = async (req, res) => {
   try {
+    const userId = req.user?.id || 'anon';
+    const uploadsDir = path.join(__dirname, '..', 'uploads');
+
+    const backupPrefix = `backup-${userId}-`;
+    const encPrefix = `enc-${userId}-`;
+
+    let savedDataBytes = 0;
+    let encryptedCount = 0;
+    let backupCount = 0;
+
+    if (fs.existsSync(uploadsDir)) {
+      const files = fs.readdirSync(uploadsDir);
+      files.forEach(f => {
+        if (f.startsWith(backupPrefix) || f.startsWith(encPrefix)) {
+          const stat = fs.statSync(path.join(uploadsDir, f));
+          savedDataBytes += stat.size;
+          if (f.startsWith(encPrefix)) encryptedCount++;
+          if (f.startsWith(backupPrefix)) backupCount++;
+        }
+      });
+    }
+
     const overview = {
-      savedDataBytes: 1024 * 1024 * 120, // 120 Mo exemple
-      alertsCount: 3,
+      savedDataBytes,
+      alertsCount: encryptedCount,
+      backupCount,
       lastCheck: new Date().toISOString(),
     };
-    res.status(200).json({
-      success: true,
-      data: overview,
-    });
+
+    res.status(200).json({ success: true, data: overview });
   } catch (err) {
     console.error('Erreur overview:', err);
     res.status(500).json({ success: false, message: "Erreur lors de la récupération de l'overview" });
@@ -29,14 +50,79 @@ exports.overview = async (req, res) => {
 // ==============================
 exports.analyze = async (req, res) => {
   try {
+    const userId = req.user?.id || 'anon';
+    const uploadsDir = path.join(__dirname, '..', 'uploads');
+
+    const backupPrefix = `backup-${userId}-`;
+    const encPrefix = `enc-${userId}-`;
+
+    let backups = [];
+    let encrypted = [];
+
+    if (fs.existsSync(uploadsDir)) {
+      const files = fs.readdirSync(uploadsDir);
+      files.forEach(f => {
+        const stat = fs.statSync(path.join(uploadsDir, f));
+        if (f.startsWith(backupPrefix)) backups.push({ name: f, size: stat.size, mtime: stat.mtime });
+        if (f.startsWith(encPrefix)) encrypted.push({ name: f, size: stat.size, mtime: stat.mtime });
+      });
+    }
+
+    const issues = [];
+    let score = 100;
+
+    // Vérif 1 : aucun backup
+    if (backups.length === 0) {
+      issues.push({ id: 'no-backup', severity: 'critical', category: 'Sauvegarde', message: 'Aucune sauvegarde trouvée. Tes données ne sont pas protégées.' });
+      score -= 30;
+    } else {
+      // Vérif 2 : dernier backup trop ancien (>7 jours)
+      const lastBackup = backups.sort((a, b) => b.mtime - a.mtime)[0];
+      const daysSinceBackup = Math.floor((Date.now() - new Date(lastBackup.mtime)) / (1000 * 60 * 60 * 24));
+      if (daysSinceBackup > 7) {
+        issues.push({ id: 'old-backup', severity: 'warning', category: 'Sauvegarde', message: `Dernière sauvegarde il y a ${daysSinceBackup} jours. Il est recommandé de sauvegarder toutes les semaines.` });
+        score -= 15;
+      }
+    }
+
+    // Vérif 3 : aucun fichier chiffré
+    if (encrypted.length === 0) {
+      issues.push({ id: 'no-encryption', severity: 'warning', category: 'Chiffrement', message: 'Aucun fichier chiffré. Protège tes fichiers sensibles avec le chiffrement.' });
+      score -= 20;
+    }
+
+    // Vérif 4 : trop de fichiers non chiffrés vs chiffrés
+    const totalFiles = backups.length + encrypted.length;
+    if (totalFiles > 0 && encrypted.length === 0 && backups.length > 3) {
+      issues.push({ id: 'low-encryption-ratio', severity: 'warning', category: 'Chiffrement', message: `Tu as ${backups.length} fichiers sauvegardés mais aucun n'est chiffré.` });
+      score -= 10;
+    }
+
+    // Vérif 5 : stockage élevé (>50MB)
+    const totalSize = [...backups, ...encrypted].reduce((acc, f) => acc + f.size, 0);
+    if (totalSize > 50 * 1024 * 1024) {
+      issues.push({ id: 'high-storage', severity: 'info', category: 'Stockage', message: `Utilisation élevée : ${(totalSize / (1024 * 1024)).toFixed(1)} MB. Pense à supprimer les anciens fichiers.` });
+      score -= 5;
+    }
+
+    // Score plancher
+    if (score < 0) score = 0;
+
+    const status = score >= 80 ? 'good' : score >= 50 ? 'warning' : 'critical';
+
     const report = {
-      status: 'ok',
-      issuesFound: 1,
-      details: [
-        { id: 'weak-password', severity: 'medium', message: '1 mot de passe faible détecté.' }
-      ],
+      score,
+      status,
+      issuesFound: issues.length,
+      details: issues,
+      stats: {
+        backupCount: backups.length,
+        encryptedCount: encrypted.length,
+        totalSizeBytes: totalSize,
+      },
       generatedAt: new Date().toISOString(),
     };
+
     res.status(200).json({ success: true, data: report });
   } catch (err) {
     console.error('Erreur analyze:', err);

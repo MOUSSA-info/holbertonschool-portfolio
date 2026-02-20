@@ -1,16 +1,32 @@
 import React from "react";
+import "./Support.css";
+
+const steps = [
+  { icon: "🏠", title: "Tableau de bord", desc: "Accède à ton tableau de bord pour voir les alertes de sécurité et les statistiques en temps réel." },
+  { icon: "🔍", title: "Analyser", desc: "Analyse tes données pour détecter les vulnérabilités et les menaces potentielles." },
+  { icon: "🔒", title: "Chiffrer", desc: "Chiffre tes fichiers sensibles pour les protéger contre tout accès non autorisé." },
+  { icon: "💾", title: "Sauvegarder", desc: "Crée des sauvegardes de tes fichiers importants et accède-y à tout moment." },
+  { icon: "👤", title: "Gérer ton compte", desc: "Modifie tes informations personnelles et gère les rôles des utilisateurs dans Paramètres." },
+  { icon: "🆘", title: "Support", desc: "Consulte la FAQ ou contacte notre équipe technique pour toute assistance." },
+];
 
 export default function Guide() {
   return (
-    <div className="p-6 bg-white rounded shadow-md max-w-2xl">
-      <h2 className="text-2xl font-bold mb-4">📖 Guide d'utilisation</h2>
-      <ul className="list-disc list-inside space-y-2 text-gray-700">
-        <li>Accéder à votre tableau de bord pour voir les alertes et statistiques.</li>
-        <li>Analyser vos données pour détecter les vulnérabilités.</li>
-        <li>Chiffrer ou sauvegarder vos fichiers importants.</li>
-        <li>Gérer vos informations de compte et les rôles des utilisateurs.</li>
-        <li>Consulter le support et les FAQ pour toute assistance.</li>
-      </ul>
+    <div className="support-page">
+      <div className="support-header">
+        <h1>📖 Guide d'utilisation</h1>
+        <p>Découvre comment utiliser toutes les fonctionnalités de MyGlowSkills.</p>
+      </div>
+
+      <div className="guide-grid">
+        {steps.map((s, i) => (
+          <div key={i} className="guide-step">
+            <div className="guide-icon">{s.icon}</div>
+            <h3>{s.title}</h3>
+            <p>{s.desc}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

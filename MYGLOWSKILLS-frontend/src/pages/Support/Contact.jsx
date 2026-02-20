@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./Support.css";
 
 export default function Contact() {
   const [name, setName] = useState("");
@@ -11,65 +12,70 @@ export default function Contact() {
     e.preventDefault();
     setLoading(true);
     try {
-      // Appel API pour envoyer le message
-      // ex: await sendContactMessage({ name, email, message });
-      setStatus("✅ Message envoyé !");
+      setStatus("success");
       setName("");
       setEmail("");
       setMessage("");
     } catch (err) {
       console.error(err);
-      setStatus("❌ Erreur lors de l'envoi.");
+      setStatus("error");
     }
     setLoading(false);
   };
 
   return (
-    <div className="p-6 bg-white rounded shadow-md max-w-md">
-      <h2 className="text-2xl font-bold mb-4">📩 Contact technique</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block mb-1 font-medium">Nom :</label>
-          <input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
+    <div className="support-page">
+      <div className="support-header">
+        <h1>📩 Contact technique</h1>
+        <p>Une question ou un problème ? Envoie-nous un message.</p>
+      </div>
 
-        <div>
-          <label className="block mb-1 font-medium">Email :</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
+      <div className="support-card contact-card">
+        <form onSubmit={handleSubmit} className="contact-form">
+          <div className="form-group">
+            <label>Nom</label>
+            <input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Ton nom"
+              required
+            />
+          </div>
 
-        <div>
-          <label className="block mb-1 font-medium">Message :</label>
-          <textarea
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            rows="5"
-            required
-          />
-        </div>
+          <div className="form-group">
+            <label>Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="ton@email.com"
+              required
+            />
+          </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-        >
-          {loading ? "Envoi..." : "Envoyer"}
-        </button>
-      </form>
+          <div className="form-group">
+            <label>Message</label>
+            <textarea
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder="Décris ton problème..."
+              rows="5"
+              required
+            />
+          </div>
 
-      {status && <p className="mt-4 text-green-700">{status}</p>}
+          <button type="submit" className="support-btn" disabled={loading}>
+            {loading ? "Envoi en cours..." : "Envoyer le message"}
+          </button>
+        </form>
+
+        {status === "success" && (
+          <div className="support-alert success">✅ Message envoyé avec succès !</div>
+        )}
+        {status === "error" && (
+          <div className="support-alert error">❌ Erreur lors de l'envoi. Réessaie.</div>
+        )}
+      </div>
     </div>
   );
 }

@@ -25,6 +25,9 @@ function Header() {
         {location.pathname !== '/' && location.pathname !== '/dashboard' && location.pathname !== '/login' && location.pathname !== '/register' && (
           <button className="btn-back" onClick={() => navigate(-1)}>← Retour</button>
         )}
+        {isLoggedIn && location.pathname !== '/dashboard' && (
+          <button className="btn-back" onClick={() => navigate('/dashboard')}>🏠 Dashboard</button>
+        )}
         <Link to="/">Accueil</Link>
         {isLoggedIn ? (
           <button className="btn-back" onClick={handleLogout}>Déconnexion</button>

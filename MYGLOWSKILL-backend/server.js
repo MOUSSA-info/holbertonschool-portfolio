@@ -32,13 +32,15 @@ mongoose.connect(process.env.MONGO_URI, {
 //try {
   const authRoutes = require('./routes/auth');
   const projectRoutes = require('./routes/projects');
-  const securityRoutes = require('./routes/security'); // ✅ ajouté
-  const usersRoutes = require('./routes/users');       // ✅ optionnel si tu veux /api/v1/users/me
+  const securityRoutes = require('./routes/security');
+  const usersRoutes = require('./routes/users');
+  const contactRoutes = require('./routes/contact');
 
   app.use('/auth', authRoutes);
   app.use('/projects', projectRoutes);
-  app.use('/api/security', securityRoutes);  // ✅ nouvelles routes sécurité
-  app.use('/api/users', usersRoutes);        // ✅ route profil utilisateur (optionnel)
+  app.use('/api/security', securityRoutes);
+  app.use('/api/users', usersRoutes);
+  app.use('/support/contact', contactRoutes);
 //} catch (err) {
   //console.error('Erreur chargement routes:', err.message);
 //}

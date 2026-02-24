@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { sendContactMessage } from "../../services/api";
 import "./Support.css";
 
 export default function Contact() {
@@ -12,6 +13,7 @@ export default function Contact() {
     e.preventDefault();
     setLoading(true);
     try {
+      await sendContactMessage({ name, email, message });
       setStatus("success");
       setName("");
       setEmail("");

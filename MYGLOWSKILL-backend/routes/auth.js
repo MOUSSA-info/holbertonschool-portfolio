@@ -38,4 +38,35 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// Mettre à jour le profil (username / password)
+const auth = require('../middlewares/authMiddleware');
+
+router.put('/profile', auth, async (req, res) => {
+  try {
+    const { newUsername, currentPassword, newPassword } = req.body;
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ message: 'Utilisateur introuvable' });
+
+    // Changement de username
+    if (newUsername && newUsername !== user.username) {
+      const exists = await User.findOne({ username: newUsername.toLowerCase() });
+      if (exists) return res.status(400).json({ message: 'Ce nom d\'utilisateur est déjà pris' });
+      user.username = newUsername.toLowerCase();
+    }
+
+    // Changement de mot de passe
+    if (newPassword) {
+      if (!currentPassword) return res.status(400).json({ message: 'Mot de passe actuel requis' });
+      const valid = await bcrypt.compare(currentPassword, user.password);
+      if (!valid) return res.status(400).json({ message: 'Mot de passe actuel incorrect' });
+      user.password = await bcrypt.hash(newPassword, 10);
+    }
+
+    await user.save();
+    res.json({ success: true, message: 'Profil mis à jour avec succès' });
+  } catch (err) {
+    res.status(500).json({ message: 'Erreur lors de la mise à jour', error: err.message });
+  }
+});
+
 module.exports = router;

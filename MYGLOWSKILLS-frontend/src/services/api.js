@@ -56,7 +56,7 @@ export const login = (email, password) => API.post("/auth/login", { email, passw
 export const register = (name, email, password) => API.post("/auth/register", { name, email, password });
 
 /* ------------------ Profil ------------------ */
-export const updateProfile = (data) => API.put("/users/me", data);
+export const updateProfile = (data) => API.put("/auth/profile", data);
 export const getUsers = () => API.get("/users");
 export const updateUserRole = (userId, role) => API.put(`/users/${userId}/role`, { role });
 

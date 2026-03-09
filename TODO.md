@@ -1,0 +1,6 @@
+- [x] Corriger le bug dans decryptFile où la promesse se résout trop tôt (avant que la sortie soit terminée)
+- [x] Exécuter la commande de test pour chiffrer test.txt
+- [x] Tester le déchiffrement pour assurer aller-retour
+- [ ] Tester les cas limites (chemins invalides, clés manquantes, permissions)
+- [ ] Vérifier les erreurs d'E/S
+- [x] Tester via le site (frontend) pour s'assurer que le chiffrement fonctionne et que les données ne sont pas affichées en clair
